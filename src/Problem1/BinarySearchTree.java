@@ -1,3 +1,5 @@
+package Problem1;
+
 public class BinarySearchTree {
     static class BinaryNode  <Integer> {
         Integer element;
