@@ -1,21 +1,33 @@
+/*
+Author: Cadet Alyssa Ingerson
+Help Received: BinarySearchTree code from class, https://stackoverflow.com/questions/1509391/how-to-get-the-one-entry-from-hashmap-without-iterating
+ */
 package Problem1;
 
-public class BinarySearchTree {
-    static class BinaryNode  <Integer> {
-        Integer element;
-        BinaryNode<Integer> left;
-        BinaryNode<Integer> right;
+import java.util.HashMap;
+import java.util.Map;
+
+public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
+    class BinaryNode<AnyType> {
+        HashMap<AnyType,Integer> element;
+        BinaryNode<AnyType> left;
+        BinaryNode<AnyType> right;
 
         public BinaryNode() {
             this(null);
         }
 
-        public BinaryNode(Integer element) {
-            this(element, null, null);
+        public BinaryNode(AnyType element) {
+            HashMap <AnyType,java.lang.Integer> store = new HashMap<>();
+            store.put(element, Integer.valueOf(1));
+            this.element = store;
+            this.left = null;
+            this.right = null;
         }
 
-        public BinaryNode(Integer element, BinaryNode<Integer> left, BinaryNode<Integer> right) {
-            this.element = element;
+        public BinaryNode(Integer element, BinaryNode<AnyType> left, BinaryNode<AnyType> right) {
+            HashMap <AnyType,Integer> store = new HashMap<>((int) element, Integer.valueOf(1));
+            this.element = store;
             this.left = left;
             this.right = right;
         }
@@ -32,10 +44,10 @@ public class BinarySearchTree {
 
             return sb;
         }
-        public void setLeft(BinaryNode<Integer> left) {
+        public void setLeft(BinaryNode<AnyType> left) {
             this.left = left;
         }
-        public void setRight(BinaryNode<Integer> right) {
+        public void setRight(BinaryNode<AnyType> right) {
             this.right = right;
         }
         @Override
@@ -44,26 +56,31 @@ public class BinarySearchTree {
             return this.toString(new StringBuilder(), true, new StringBuilder()).toString();
         }
     }
-    BinaryNode<Integer> root;
+    BinaryNode<AnyType> root;
 
     public BinarySearchTree(){
         root = null;
     }
 
-    public BinarySearchTree(Integer item){
-        root = new BinaryNode<>(item);
+    public BinarySearchTree(AnyType item){
+
+        root = new BinaryNode<AnyType>(item);
     }
 
-    public BinarySearchTree(BinaryNode<Integer> root){
+    public BinarySearchTree(BinaryNode<AnyType> root){
         this.root = root;
     }
 
-    private BinaryNode<Integer> insert(Integer x, BinaryNode<Integer> t){
+    private BinaryNode<AnyType> insert(AnyType x, BinaryNode<AnyType> t){
         if(t == null)
             return new BinaryNode<>(x);
 
-        int compareResult = x.compareTo(t.element);
+        Map.Entry<AnyType, java.lang.Integer> entry = t.element.entrySet().iterator().next();
+        Integer val = entry.getValue();
+        int compareResult = x.compareTo(entry.getKey());
 
+        if(compareResult == 0)
+            entry.setValue(Integer.valueOf(((int)val + 1)));
         if(compareResult < 0)
             t.left = insert(x, t.left);
         else if(compareResult > 0)
@@ -73,18 +90,21 @@ public class BinarySearchTree {
         return t;
     }
 
-    public BinaryNode<Integer> insert(Integer node) {
+    public BinaryNode<AnyType> insert(AnyType node) {
         return this.insert(node, root);
     }
 
     public static void main(String [] args){
-        BinarySearchTree t = new BinarySearchTree(3);
+        BinarySearchTree<Integer> t = new BinarySearchTree(3);
         t.insert(1);
         t.insert(4);
         t.insert(2);
         t.insert(5);
         t.insert(0);
         t.insert(6);
+        t.insert(3);
+        t.insert(5);
+        t.insert(5);
 
         System.out.println(t.root.toString());
     }
