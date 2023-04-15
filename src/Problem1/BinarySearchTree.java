@@ -90,8 +90,30 @@ public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
         return t;
     }
 
-    public BinaryNode<AnyType> insert(AnyType node) {
-        return this.insert(node, root);
+    public BinaryNode<AnyType> insert(AnyType x) {
+        return this.insert(x, root);
+    }
+
+    private boolean contains(AnyType x, BinaryNode<AnyType> t){
+        Map.Entry<AnyType, java.lang.Integer> entry = t.element.entrySet().iterator().next();
+
+        if(t == null)
+            return false;
+        int compareResult = x.compareTo(entry.getKey());
+
+        if(compareResult == 0)
+            return true;
+        else if(compareResult > 0 && t.right != null)
+            return contains(x, t.right);
+        else if(compareResult < 0 && t.left != null)
+            return contains(x, t.left);
+        else
+            return false;
+
+    }
+
+    public boolean contains(AnyType x){
+        return this.contains(x,root);
     }
 
     public static void main(String [] args){
@@ -105,7 +127,11 @@ public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
         t.insert(3);
         t.insert(5);
         t.insert(5);
+        t.insert(2);
 
         System.out.println(t.root.toString());
+        System.out.println(t.contains(10));
+        System.out.println(t.contains(3));
+        System.out.println(t.contains(5));
     }
 }
