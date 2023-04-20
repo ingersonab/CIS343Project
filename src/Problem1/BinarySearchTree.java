@@ -18,15 +18,16 @@ public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
         }
 
         public BinaryNode(AnyType element) {
-            HashMap <AnyType,java.lang.Integer> store = new HashMap<>();
+            HashMap <AnyType,Integer> store = new HashMap<>();
             store.put(element, Integer.valueOf(1));
             this.element = store;
             this.left = null;
             this.right = null;
         }
 
-        public BinaryNode(Integer element, BinaryNode<AnyType> left, BinaryNode<AnyType> right) {
-            HashMap <AnyType,Integer> store = new HashMap<>((int) element, Integer.valueOf(1));
+        public BinaryNode(AnyType element, BinaryNode<AnyType> left, BinaryNode<AnyType> right) {
+            HashMap <AnyType,java.lang.Integer> store = new HashMap<>();
+            store.put(element, Integer.valueOf(1));
             this.element = store;
             this.left = left;
             this.right = right;
@@ -90,7 +91,7 @@ public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
         return t;
     }
 
-    public BinaryNode<AnyType> insert(AnyType x) {
+    public BinaryNode<AnyType> insert(AnyType x) { // add item x into the tree and increase the count for x
         return this.insert(x, root);
     }
 
@@ -112,8 +113,81 @@ public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
 
     }
 
-    public boolean contains(AnyType x){
+    public boolean contains(AnyType x){ // returns true if tree contains at least one item x
         return this.contains(x,root);
+    }
+
+    public int count(AnyType x, BinaryNode<AnyType> t){
+        Map.Entry<AnyType, Integer> entry = t.element.entrySet().iterator().next();
+
+        if(t == null)
+            return 0;
+        int compareResult = x.compareTo(entry.getKey());
+
+        if(compareResult == 0)
+            return entry.getValue();
+        if(compareResult > 0 && t.right != null)
+            return count(x, t.right);
+        else if(compareResult < 0 && t.left != null)
+            return count(x, t.left);
+        else
+            return 0;
+
+    }
+
+    public int count(AnyType x){ //returns the frequency of item x in the tree
+        return this.count(x, root);
+    }
+
+    public boolean removeOne(AnyType x, BinaryNode<AnyType> t){
+        Map.Entry<AnyType, java.lang.Integer> entry = t.element.entrySet().iterator().next();
+
+        if(t == null)
+            return true;
+        int compareResult = x.compareTo(entry.getKey());
+
+        if(compareResult == 0) {
+            if (entry.getValue() > 1) {
+                t.element.put(x, entry.getValue() - 1);
+            }
+            else
+                t.element.remove(x);
+
+            return true;
+        }
+        else if(compareResult > 0 && t.right != null)
+            return removeOne(x, t.right);
+        else if(compareResult < 0 && t.left != null)
+            return removeOne(x, t.left);
+        else
+            return false;
+    }
+
+    public boolean removeOne(AnyType x){ // decrement count by 1 if count > 1, otherwise remove x
+        return this.removeOne(x, root);
+    }
+
+    public boolean removeAll(AnyType x, BinaryNode<AnyType> t){
+        Map.Entry<AnyType, java.lang.Integer> entry = t.element.entrySet().iterator().next();
+
+        if(t == null)
+            return true;
+        int compareResult = x.compareTo(entry.getKey());
+
+        if(compareResult == 0) {
+            t.element.remove(x);
+            return true;
+        }
+        else if(compareResult > 0 && t.right != null)
+            return removeAll(x, t.right);
+        else if(compareResult < 0 && t.left != null)
+            return removeAll(x, t.left);
+        else
+            return false;
+    }
+
+    public boolean removeAll(AnyType x){ // remove x irrespective of the value of the frequency count
+        return this.removeAll(x, root);
     }
 
     public static void main(String [] args){
@@ -133,5 +207,13 @@ public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
         System.out.println(t.contains(10));
         System.out.println(t.contains(3));
         System.out.println(t.contains(5));
+        System.out.println(t.count(3));
+        System.out.println(t.count(5));
+        System.out.println(t.removeOne(3));
+        System.out.println(t.removeOne(6));
+        System.out.println(t.root.toString());
+        System.out.println(t.removeAll(0));
+        System.out.println(t.root.toString());
+
     }
 }
