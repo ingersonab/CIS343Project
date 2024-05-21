@@ -263,14 +263,23 @@ public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
         t.insert(2);
 
         System.out.println(t.root.toString());
+
+        System.out.println("Does t contain 10:");
         System.out.println(t.contains(10));
+        System.out.println("Does t contain 3:");
         System.out.println(t.contains(3));
+        System.out.println("Does t contain 5:");
         System.out.println(t.contains(5));
+        System.out.println("The number of copies for 3:");
         System.out.println(t.count(3));
+        System.out.println("The number of copies for 5:");
         System.out.println(t.count(5));
+        System.out.println("Remove one copy of 3");
         System.out.println(t.removeOne(3));
+        System.out.println("Remove one copy of 6");
         System.out.println(t.removeOne(6));
         System.out.println(t.root.toString());
+        System.out.println("Remove all copies of 0");
         System.out.println(t.removeAll(0));
         System.out.println(t.root.toString());
 
