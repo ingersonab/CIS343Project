@@ -6,6 +6,7 @@ package Problem1;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
     class BinaryNode<AnyType> {
@@ -191,7 +192,65 @@ public class BinarySearchTree <AnyType extends Comparable<AnyType>>{
     }
 
     public static void main(String [] args){
-        BinarySearchTree<Integer> t = new BinarySearchTree(3);
+        BinarySearchTree<Integer> t = new BinarySearchTree(5);
+
+        int selection = 0;
+        Scanner input = new Scanner(System.in);
+
+        do {
+            System.out.println("Welcome to my Binary Search Tree Program!");
+            System.out.println("---------------------------------------------");
+            System.out.println("1- Add element \n2- Remove element \n3- Get element count \n4- Check for element \n" +
+                    "5- View Binary Search Tree \n6- Exit program");
+
+            System.out.print(">>");
+            selection = input.nextInt();
+
+            switch(selection) {
+                case 1:
+                    System.out.print("Add an integer element >>");
+                    int num = input.nextInt();
+                    t.insert(num);
+                    System.out.println();
+                    System.out.println("Element added successfully!");
+                    break;
+                case 2:
+                    System.out.println("1- Decrement element count by 1 \n2- Remove entire element");
+                    System.out.print(">>");
+                    int removeSelect = input.nextInt();
+                    switch(removeSelect){
+                        case 1:
+                            System.out.print("Enter element to decrement >>");
+                            int num2 = input.nextInt();
+                            t.removeOne(num2);
+                            System.out.println();
+                            System.out.println("Element decremented successfully!");
+                            break;
+                        case 2:
+                            System.out.println("Enter element to remove >>");
+                            int num3 = input.nextInt();
+                            t.removeAll(num3);
+                            System.out.println();
+                            System.out.println("Element removed successfully!");
+                            break;
+                    }
+                    break;
+                case 3:
+                    System.out.print("Enter element to find count >>");
+                    int num2 = input.nextInt();
+                    System.out.println("The frequency of element " + num2 + " is " + t.count(num2));
+                    break;
+                case 4:
+                    System.out.println("Enter element to check >>");
+                    int num3 = input.nextInt();
+                    System.out.println(t.contains(num3) ? "Element " + num3 + " exists in the tree" : "Element " + num3 + " does not exist in the tree");
+                    break;
+                case 5:
+                    System.out.println(t.root.toString());
+                    break;
+            }
+        }while(selection != 6);
+
         t.insert(1);
         t.insert(4);
         t.insert(2);
